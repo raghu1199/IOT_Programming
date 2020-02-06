@@ -1,0 +1,54 @@
+
+
+flaskapp.wsgi
+
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+application.secret_key = 'Add your secret key'
+
+
+sudo vim /etc/apache2/sites-available/FlaskApp/
+
+<VirtualHost *:80>
+                ServerName 192.168.0.115
+                ServerAdmin mraghvendra10@gmail.com
+                WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
+                <Directory /var/www/FlaskApp/FlaskApp/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/FlaskApp/FlaskApp/static
+                <Directory /var/www/FlaskApp/FlaskApp/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+from flask import Flask,request,jsonify
+app=Flask(__name__)
+
+@app.route("/Piapp",methods=['GET'])
+def led():
+    status=request.args.get('status')
+    if status=="on":
+        return jsonify({"message":"Led Turned On"})
+    elif status=="off":
+        return jsonify({"message":"Led turned Off"})
+    else:
+        return jsonify({"message":"Not valid status"})
+
+
+if __name__=='__main__':
+    app.run()
+
+
