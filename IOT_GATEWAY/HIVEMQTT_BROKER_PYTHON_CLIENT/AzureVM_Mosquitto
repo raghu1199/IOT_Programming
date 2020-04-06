@@ -1,0 +1,33 @@
+azure login:admin@meshayu.onmicrosoft.com
+password: bhavamish@123
+
+
+azure vm public ip: 13.66.135.186
+azure vm login as: bhavamish
+ssh public key is given so use ssh private key to acces your vm ->id_rsa
+
+
+
+sql admin: admin@meshayu.onmicrosoft.com,bhavamish
+server : bhavamish.database.windows.net
+password: jayesh@123
+
+
+to access mosquitto on azure vm:
+
+-> go to azure select your vm->go to Networking
+-> Add inbound Rule on 1883 -> source=* destination =1883 ->restart vm
+->inside vm-> sudo ufw allow ssh, sudo ufw allow 1883/tcp, sudo service ufw restart
+
+on vm->
+
+1) sudo apt-get install python3-pip
+2) pip3 install paho-mqtt
+3) pip3 install mysql-connector-python
+4) sudo apt-get install mosquitto mosquitto-clients
+
+mosquitto_sub -h 13.66.135.186 -p 1883 -t test/1
+
+on your local machine->
+
+mosquitto_pub -h 13.66.135.186 -p 1883 -t test/1 -m "Hello raghu"
