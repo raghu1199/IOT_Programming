@@ -1,0 +1,14 @@
+[Unit]
+Description=uWSGI instance to serve flaskapp
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/myapp
+Environment="PATH=/var/www/myapp/venv/bin"
+ExecStart=/var/www/myapp/venv/bin/uwsgi --ini flaskapp.ini
+
+[Install]
+WantedBy=multi-user.target
+
