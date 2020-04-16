@@ -1,3 +1,5 @@
+# sudo vim /etc/nginx/sites-available/flaskapp
+
 server{
 
 	listen 80;
